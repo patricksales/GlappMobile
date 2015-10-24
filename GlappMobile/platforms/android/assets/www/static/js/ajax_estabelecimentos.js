@@ -27,24 +27,27 @@ var anexarMensagem = function (marker, conteudo) {
     });
 };
 
-var recarregarMapa = function () {
+var recarregarMapa = function (id, latLng) {
 
-    var mapParentWidth = $('#mapContainer').width();
-    $('#map').width(mapParentWidth);
-    $('#map').height(mapParentWidth * 0.5);
+    var mapParentWidth = $('#mapContainer-' + id).width();
+    $('#map-' + id).width(mapParentWidth * 0.999);
+    $('#map-' + id).height(mapParentWidth * 0.999);
+    var textoInformação = "<div><p>Teste</p></div>";
+    inserirMarcador(latLng, textoInformação);
     google.maps.event.trigger(map, "resize");
     setTimeout(function () {
-        map.setCenter(centroMapa);
+        map.setCenter(latLng);
     }, 500);
 };
 
 
-var initialize = function () {
+var initialize = function (id, latLng) {
+    
     directionsService = new google.maps.DirectionsService();
     geocoder = new google.maps.Geocoder();
-    map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: centroMapa
+    map = new google.maps.Map(document.getElementById('map-' + id), {
+        zoom: 16,
+        center: latLng
     });
     var rendererOptions = {
         map: map,
@@ -61,22 +64,23 @@ var ativarCollapsible = function () {
 
 var renderizarLista = function (dadosRecebidos) {
     dadosRecebidos.forEach(function (estabelecimento) {
-        var li = $('<li></li>');
+        var li = $('<li id="' + estabelecimento.idEmpresa + '"></li>');
         var div1 = $('<div class="collapsible-header"><i class="material-icons">business</i>' + estabelecimento.nome + ' -> ' + estabelecimento.unidade + '</div>');
         var div2 = $('<div class="collapsible-body"></div>');
         console.log(div2);
         var conteudo = "";
         conteudo += '<p>Site: ' + estabelecimento.site + '</p>';
-        conteudo += '<a class="waves-effect waves-light btn modal-trigger" href="#modal-mapa">Modal</a>';
+        conteudo += '<a class="waves-effect waves-light btn modal-trigger btn-mapa" href="#modal-mapa">Modal</a>';
+        conteudo += '<input type="hidden" name="latitude" value="' + estabelecimento.latitude + '"  />';
+        conteudo += '<input type="hidden" name="longitude" value="' + estabelecimento.longitude + '"  />';
+        conteudo += '<input type="hidden" name="id" value="' + estabelecimento.idEmpresa + '"  />';
+        conteudo += '<div id="mapContainer-' + estabelecimento.idEmpresa + '">';
+        conteudo += '<div id="map-' + estabelecimento.idEmpresa + '"></div>';
+        conteudo += '</div>';
         div2.html(conteudo);
         li.append(div1);
         li.append(div2);
         listaObj.append(li);
-    });
-    DialogModalMapa = $("#modal-mapa");
-    $('.modal-trigger').on("click", function () {
-        DialogModalMapa.openModal();
-        setTimeout(recarregarMapa, 500);
     });
 };
 
@@ -85,13 +89,28 @@ var buscarEstabelecimentos = function () {
     $.getJSON(URL + "/estabelecimento/all")
             .success(renderizarLista)
             .then(ativarCollapsible)
+            .then(vincularEventos)
             ;
 
 };
 
+var vincularEventos = function () {
+
+    $(".btn-mapa").on("click", function () {
+        var id = $(this).parent("div").find("input[name='id']").val();
+        var lat = parseFloat($(this).parent("div").find("input[name='latitude']").val());
+        var lng = parseFloat($(this).parent("div").find("input[name='longitude']").val());
+        console.log(id);
+        console.log(lat);
+        console.log(lng);
+        var objLatLng = {lat: lat, lng: lng};
+        initialize(id, objLatLng);
+        recarregarMapa(id, objLatLng);
+    });
+};
+
 var inicializarPagina = function () {
     buscarEstabelecimentos();
-    initialize();
 };
 
 inicializarPagina();
