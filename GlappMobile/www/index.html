@@ -9,7 +9,7 @@
         <link href="static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="static/css/config.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </head>
     <body>
         <nav class="red lighten-1" role="navigation">
@@ -29,6 +29,17 @@
             </div>
         </nav>
         <main>
+            <div id="modal-mapa" class="modal">
+                <div class="modal-content">
+                    <div id="mapContainer">
+                        <div id="map"></div>
+                    </div>                    
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+            </div>
+
             <div class="container">
                 <div class="section" id="conteudo">
                     <!-- O conteudo é adicionado aqui -->
@@ -45,10 +56,10 @@
             </div>
         </footer>
         <!--  Scripts-->
-        <script src="static/js/constatantes.js"></script>
         <script src="static/js/jquery-2.1.1.min.js"></script>
         <script src="static/js/materialize.min.js"></script>
         <script src="static/js/config.js"></script>
+        <script src="static/js/constatantes.js"></script>
         <script src="static/js/ajax_tipo_produtos.js"></script>
         <script src="static/js/paginas.js"></script>
     </body>
