@@ -100,9 +100,6 @@ var vincularEventos = function () {
         var id = $(this).parent("div").find("input[name='id']").val();
         var lat = parseFloat($(this).parent("div").find("input[name='latitude']").val());
         var lng = parseFloat($(this).parent("div").find("input[name='longitude']").val());
-        console.log(id);
-        console.log(lat);
-        console.log(lng);
         var objLatLng = {lat: lat, lng: lng};
         initialize(id, objLatLng);
         recarregarMapa(id, objLatLng);
