@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     $.getJSON(URL + "/tipoproduto/all")
             .success(function (dadosRecebidos) {
-                console.log(dadosRecebidos);
+                tabelaObj.html('');
                 dadosRecebidos.forEach(function (tipoProduto) {
                     var linha = $("<tr>");
                     var colunaId = $("<td>");
