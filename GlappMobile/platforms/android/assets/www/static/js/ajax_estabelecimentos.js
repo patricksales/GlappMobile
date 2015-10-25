@@ -57,6 +57,7 @@ var recarregarMapa = function (id, latLng, objDescricao) {
 };
 
 var renderizarLista = function (dadosRecebidos) {
+    listaObj.html('');
     dadosRecebidos.forEach(function (estabelecimento) {
         var li = $('<li id="' + estabelecimento.idEmpresa + '"></li>');
         var div1 = $('<div class="collapsible-header"><i class="material-icons">business</i>' + estabelecimento.nome + ' -> ' + estabelecimento.unidade + '</div>');
