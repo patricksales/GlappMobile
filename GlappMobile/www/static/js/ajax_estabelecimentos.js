@@ -66,14 +66,14 @@ var initialize = function () {
         map: map,
         suppressMarkers: true
     };
-    directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-};
 
-var ativarCollapsible = function () {
-    $('.collapsible').collapsible({
-        accordion: true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
-    });
-};
+    var anexarMensagem = function (marker, conteudo) {
+        //console.log("Chamado");
+        var infowindow = new google.maps.InfoWindow({maxWidth: 400, content: conteudo});
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(marker.get('map'), marker);
+        });
+    };
 
 var renderizarLista = function (dadosRecebidos) {
     dadosRecebidos.forEach(function (estabelecimento) {
@@ -98,17 +98,32 @@ var renderizarLista = function (dadosRecebidos) {
     });
 };
 
-var buscarEstabelecimentos = function () {
+        var mapParentWidth = $('#mapContainer-' + id).width();
+        $('#map-' + id).width(mapParentWidth * 0.999);
+        $('#map-' + id).height(mapParentWidth * 0.999);
+        var textoInformação = "<div><p>Teste</p></div>";
+        inserirMarcador(latLng, textoInformação);
+        google.maps.event.trigger(map, "resize");
+        setTimeout(function () {
+            map.setCenter(latLng);
+        }, 500);
+    };
 
-    $.getJSON(URL + "/estabelecimento/all")
-            .success(renderizarLista)
-            .then(ativarCollapsible)
-            .then(vincularEventos)
-            ;
 
-};
+    var initialize = function (id, latLng) {
 
-var vincularEventos = function () {
+        directionsService = new google.maps.DirectionsService();
+        geocoder = new google.maps.Geocoder();
+        map = new google.maps.Map(document.getElementById('map-' + id), {
+            zoom: 16,
+            center: latLng
+        });
+        var rendererOptions = {
+            map: map,
+            suppressMarkers: true
+        };
+        directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+    };
 
     $(".btn-mapa").on("click", function () {
         var id = $(this).parent("div").find("input[name='id']").val();
@@ -128,4 +143,80 @@ var inicializarPagina = function () {
     initialize();
 };
 
-inicializarPagina();
+    /*var buscarEstabelecimentos = function () {
+     $.getJSON(URL + "/estabelecimento/all")
+     .success(renderizarLista)
+     .then(ativarCollapsible)
+     .then(vincularEventos)
+     ;
+     };*/
+
+    var vincularEventos = function () {
+
+        $(".btn-mapa").on("click", function () {
+            var id = $(this).parent("div").find("input[name='id']").val();
+            var lat = parseFloat($(this).parent("div").find("input[name='latitude']").val());
+            var lng = parseFloat($(this).parent("div").find("input[name='longitude']").val());
+            var objLatLng = {lat: lat, lng: lng};
+            initialize(id, objLatLng);
+            recarregarMapa(id, objLatLng);
+        });
+    };
+
+    var inicializarPagina = function () {
+        //buscarEstabelecimentos();
+        vincularEventos();
+        vincularEventosClick();
+    };
+
+
+
+//PARTE DE CONSULTA ESTABELECIMENTO
+
+    var btnPesquisar = $("#btn-pesquisar");
+
+    var buscarNomeEstabelecimento = function (termoPesquisado) {
+        $.getJSON(URL + "/estabelecimento/procura/", {
+            "campo": "nome",
+            "valor": termoPesquisado
+        })
+                .success(renderizarLista)
+                .then(ativarCollapsible)
+                .then(vincularEventos)
+                ;
+    };
+
+    var buscarIdEstabelecimento = function (idEstabelecimento) {
+        $.getJSON(URL + "/estabelecimento/" + idEstabelecimento)
+                .success(renderizarLista)
+                .then(ativarCollapsible)
+                .then(vincularEventos)
+                ;
+    };
+
+    var buscarTodosEstabelecimentos = function () {
+        $.getJSON(URL + "/estabelecimento/all")
+                .success(renderizarLista)
+                .then(ativarCollapsible)
+                .then(vincularEventos)
+                ;
+    };
+
+    var obterTermoPesquisado = function (e) {
+        var termo = $("#txt-pesquisa").val();
+        if (termo === "") {
+            buscarTodosEstabelecimentos();
+        } else if (isNaN(termo)) {
+            buscarNomeEstabelecimento(termo);
+        } else {
+            buscarIdEstabelecimento(termo);
+        }
+
+    };
+
+    var vincularEventosClick = function () {
+        btnPesquisar.on("click", obterTermoPesquisado);
+    };
+
+    inicializarPagina();
+});
