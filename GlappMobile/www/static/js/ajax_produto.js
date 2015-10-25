@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    
+
     var listaObj = $("#lista-produto");
     var btnPesquisar = $("#btn-pesquisar");
 
@@ -10,7 +10,9 @@ $(document).ready(function () {
     };
 
     var renderizarLista = function (dadosRecebidos) {
+        listaObj.html('');
         dadosRecebidos.forEach(function (produto) {
+
             var li = $('<li></li>');
             var div1 = $('<div class="collapsible-header"><i class="material-icons">assignment_ind</i>' + produto.nome + ' -> ' + produto.marca + '</div>');
             var div2 = $('<div class="collapsible-body"></div>');
@@ -23,13 +25,32 @@ $(document).ready(function () {
             listaObj.append(li);
         });
     };
-    
-    var realizarPesquisa = function(){
-        
+
+    var buscarNomeProduto = function (termoPesquisado) {
+        $.getJSON(URL + "/produto/procura/", {
+            "campo": "nome",
+            "valor": termoPesquisado
+        })
+                .success(renderizarLista)
+                .then(ativarCollapsible)
+                ;
     };
 
-    var obterTermoPesquisado = function(e){
-        console.log(e);
+    var buscarIdProduto = function (idProduto) {
+        $.getJSON(URL + "/produto/" + idProduto)
+                .success(renderizarLista)
+                .then(ativarCollapsible)
+                ;
+    };
+
+    var obterTermoPesquisado = function (e) {
+        var termo = $("#txt-pesquisa").val();
+        if (isNaN(termo)) {
+            buscarNomeProduto(termo);
+        } else {
+            buscarIdProduto(termo);
+        }
+
     };
 
     var vincularEventos = function () {
@@ -43,4 +64,12 @@ $(document).ready(function () {
                 .then(ativarCollapsible)
                 ;
     };
+
+    var inicializarPagina = function () {
+        vincularEventos();
+        //buscarTodosProdutos();
+    };
+
+    inicializarPagina();
+
 });
