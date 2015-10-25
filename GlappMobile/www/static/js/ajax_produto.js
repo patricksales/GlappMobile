@@ -45,7 +45,10 @@ $(document).ready(function () {
 
     var obterTermoPesquisado = function (e) {
         var termo = $("#txt-pesquisa").val();
-        if (isNaN(termo)) {
+        if (termo === "") {
+            buscarTodosProdutos();
+        }
+        else if (isNaN(termo)) {
             buscarNomeProduto(termo);
         } else {
             buscarIdProduto(termo);
