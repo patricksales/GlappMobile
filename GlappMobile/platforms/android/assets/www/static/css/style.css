@@ -24,7 +24,7 @@ main {
 }
 
 @media only screen and (max-width : 600px) {
-    .material-icons {
+    #mobile-demo .material-icons {
         margin-top: 7%;
     }
 }
