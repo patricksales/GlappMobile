@@ -59,7 +59,7 @@ $(document).ready(function () {
      */
     var paginaInicial = function(){
         $.ajax({
-            url: "pagina1.html",
+            url: "home.html",
             method: "GET",
             contentType: "html"
         })
@@ -72,7 +72,7 @@ $(document).ready(function () {
      * vincular os links para que ocorra a troca de conteudo
      */
     var inicializarPagina = function(){
-        //paginaInicial();
+        paginaInicial();
         vincularEventos();
     };
     
