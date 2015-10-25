@@ -64,7 +64,7 @@ var renderizarLista = function (dadosRecebidos) {
         var div2 = $('<div class="collapsible-body"></div>');
         var conteudo = "";
         conteudo += '<p>Site: ' + estabelecimento.site + '</p>';
-        conteudo += '<a class="waves-effect waves-light btn modal-trigger btn-mapa" href="#modal-mapa">Modal</a>';
+        conteudo += '<div class="row center"><a class="waves-effect waves-light  btn btn-mapa"><i class="material-icons right">navigation</i>Mostrar mapa</a></div>';
         conteudo += '<input type="hidden" name="latitude" value="' + estabelecimento.latitude + '"  />';
         conteudo += '<input type="hidden" name="longitude" value="' + estabelecimento.longitude + '"  />';
         conteudo += '<input type="hidden" name="id" value="' + estabelecimento.idEmpresa + '"  />';
@@ -80,7 +80,7 @@ var renderizarLista = function (dadosRecebidos) {
 };
 
 var obterInformacoesEstabelecimento = function (e) {
-    var divPai = $(e.target).parent("div");
+    var divPai = $(e.currentTarget).parents("div.collapsible-body");
     var id = divPai.find("input[name='id']").val();
     var lat = parseFloat(divPai.find("input[name='latitude']").val());
     var lng = parseFloat(divPai.find("input[name='longitude']").val());
