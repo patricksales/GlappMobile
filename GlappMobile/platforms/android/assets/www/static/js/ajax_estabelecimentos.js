@@ -80,7 +80,7 @@ $(document).ready(function () {
             var div2 = $('<div class="collapsible-body"></div>');
             var conteudo = "";
             conteudo += '<p>Site: ' + estabelecimento.site + '</p>';
-            conteudo += '<div class="row center"><a class="waves-effect waves-light  btn btn-mapa"><i class="material-icons right">navigation</i>Mostrar mapa</a></div>';
+            conteudo += '<div class="row center"><div class="col s12 m6"><a class="waves-effect waves-light  btn btn-mapa"><i class="material-icons right">navigation</i>Mostrar mapa</a></div>';
             conteudo += '<input type="hidden" name="latitude" value="' + estabelecimento.latitude + '"  />';
             conteudo += '<input type="hidden" name="longitude" value="' + estabelecimento.longitude + '"  />';
             conteudo += '<input type="hidden" name="id" value="' + estabelecimento.idEmpresa + '"  />';
@@ -157,7 +157,7 @@ $(document).ready(function () {
             var div2 = $('<div class="collapsible-body"></div>');
             var conteudo = "";
             conteudo += '<p>Site: ' + estabelecimento.site + '</p>';
-            conteudo += '<div class="row center"><a class="waves-effect waves-light  btn btn-mapa"><i class="material-icons right">location_on</i>Mostrar mapa</a>&nbsp;&nbsp;<a class="waves-effect waves-light  btn btn-rota"><i class="material-icons right">navigation</i>Traçar rota</a></div>';
+            conteudo += '<div class="row center"><div class="col s12 m6" style="margin-top: 5px;"><a class="waves-effect waves-light  btn btn-mapa"><i class="material-icons right">location_on</i>Mostrar mapa</a></div><div class="col s12 m6" style="margin-top: 5px;"><a class="waves-effect waves-light  btn btn-rota"><i class="material-icons right">navigation</i>Traçar rota</a></div></div>';
             conteudo += '<input type="hidden" name="latitude" value="' + estabelecimento.latitude + '"  />';
             conteudo += '<input type="hidden" name="longitude" value="' + estabelecimento.longitude + '"  />';
             conteudo += '<input type="hidden" name="id" value="' + estabelecimento.idEmpresa + '"  />';
