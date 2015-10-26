@@ -174,7 +174,8 @@ $(document).ready(function () {
 
     var tracarRota = function (e) {
         var informacoes = obterInformacoesEstabelecimento(e);
-        navigator.geolocation.getCurrentPosition(exibirRota);
+        alert(typeof navigator.geolocation);
+        navigator.geolocation.getCurrentPosition(exibirRota, null, {timeout: 10000, enableHighAccuracy: true});
     };
 
     var exibirRota = function (dados) {
