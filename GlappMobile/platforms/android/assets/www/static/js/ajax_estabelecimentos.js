@@ -229,7 +229,6 @@ $(document).ready(function () {
 
     var vincularEventos = function () {
         $(window).on('orientationchange', function (e) {
-            alert("mudou orientacao");
             var mapParentWidth = $("#map").parent("div").width();
             $('#map').width(mapParentWidth * 0.999);
             $('#map').height(mapParentWidth * 0.999);
