@@ -60,17 +60,6 @@ $(document).ready(function () {
         anexarMensagem(marker, informacao);
     };
 
-    var recarregarMapa = function (id, latLng, objDescricao) {
-        $('#map').appendTo('#mapContainer-' + id);
-        var mapParentWidth = $('#mapContainer-' + id).width();
-        $('#map').width(mapParentWidth * 0.999);
-        $('#map').height(mapParentWidth * 0.999);
-        var tituloMarcador = objDescricao.nome + ": " + objDescricao.unidade;
-        var informacaoBalao = "<div><p>" + tituloMarcador + "</p></div>";
-        inserirMarcador(latLng, tituloMarcador, informacaoBalao);
-        google.maps.event.trigger(map, "resize");
-        map.setCenter(latLng);
-    };
 
     var renderizarLista = function (dadosRecebidos) {
         listaObj.html('');
@@ -133,7 +122,7 @@ $(document).ready(function () {
         map.setCenter(latLng);
     };
 
-    function calcularRota(origemLatLng, destinoLatLng) {
+    var calcularRota = function (origemLatLng, destinoLatLng) {
         directionsService.route({
             origin: origemLatLng,
             destination: destinoLatLng,
@@ -163,7 +152,7 @@ $(document).ready(function () {
             conteudo += '<input type="hidden" name="id" value="' + estabelecimento.idEmpresa + '"  />';
             conteudo += '<input type="hidden" name="nome" value="' + estabelecimento.nome + '"  />';
             conteudo += '<input type="hidden" name="unidade" value="' + estabelecimento.unidade + '"  />';
-            conteudo += '<div id="mapContainer-' + estabelecimento.idEmpresa + '">';
+            conteudo += '<div class="mapContainer" id="mapContainer-' + estabelecimento.idEmpresa + '">';
             conteudo += '</div>';
             div2.html(conteudo);
             li.append(div1);
@@ -239,6 +228,12 @@ $(document).ready(function () {
     };
 
     var vincularEventos = function () {
+        $(window).on('orientationchange', function (e) {
+            var mapParentWidth = $("#map").parent("div").width();
+            $('#map').width(mapParentWidth * 0.999);
+            $('#map').height(mapParentWidth * 0.999);
+            google.maps.event.trigger(map, "resize");
+        });
         var btnMapa = $(".btn-mapa");
         btnMapa.on("click", mostrarEstabelecimento);
         var btnRota = $(".btn-rota");
