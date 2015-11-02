@@ -136,7 +136,7 @@ $(document).ready(function () {
                 console.log('Directions request failed due to ' + status);
             }
         });
-    }
+    };
 
     var renderizarLista = function (dadosRecebidos) {
         listaObj.html('');
