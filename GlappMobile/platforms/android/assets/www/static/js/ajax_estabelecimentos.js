@@ -136,7 +136,7 @@ $(document).ready(function () {
                 console.log('Directions request failed due to ' + status);
             }
         });
-    }
+    };
 
     var renderizarLista = function (dadosRecebidos) {
         listaObj.html('');
@@ -163,12 +163,14 @@ $(document).ready(function () {
 
     var tracarRota = function (e) {
         var informacoes = obterInformacoesEstabelecimento(e);
-        recarregarMapa(informacoes.id, informacoes.objLatLng, informacoes.objDescricao);
-        navigator.geolocation.getCurrentPosition(exibirRota, null, {timeout: 10000, enableHighAccuracy: true});
+        navigator.geolocation.getCurrentPosition(function (dados) {
+            exibirRota(informacoes, dados);
+        }, null, {timeout: 10000, enableHighAccuracy: true});
     };
 
-    var exibirRota = function (dados) {
-        var latLng = {lat: dados.coords.latitude, lng: dados.coords.longitude};
+    var exibirRota = function (informacoesEstabelecimento, dadosLocalizacao) {
+        recarregarMapa(informacoesEstabelecimento.id, informacoesEstabelecimento.objLatLng, informacoesEstabelecimento.objDescricao);
+        var latLng = {lat: dadosLocalizacao.coords.latitude, lng: dadosLocalizacao.coords.longitude};
         calcularRota(marker.getPosition(), latLng);
         inserirMarcadorUsuario(latLng, "Minha Posição", "<div><p>Minha Posição</p></div>");
     };

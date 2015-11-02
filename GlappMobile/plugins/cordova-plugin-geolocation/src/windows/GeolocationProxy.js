@@ -19,30 +19,10 @@ var PositionError = require('./PositionError'),
     loc;
 
 function ensureLocator() {
-    var deferral;
-
-    if (!loc) {
+    if (loc == null)
         loc = new Windows.Devices.Geolocation.Geolocator();
 
-        if (typeof Windows.Devices.Geolocation.Geolocator.requestAccessAsync === 'function') {
-            deferral = Windows.Devices.Geolocation.Geolocator.requestAccessAsync().then(function (result) {
-                if (result === Windows.Devices.Geolocation.GeolocationAccessStatus.allowed) {
-                    return loc;
-                }
-
-                return WinJS.Promise.wrapError({
-                    code: PositionError.PERMISSION_DENIED,
-                    message: 'Geolocation access has not been allowed by user.'
-                });
-            });
-        } else {
-            deferral = WinJS.Promise.wrap(loc);
-        }
-    } else {
-        deferral = WinJS.Promise.wrap(loc);
-    }    
-
-    return deferral;
+    return loc;
 }
 
 function createErrorCode() {
@@ -75,7 +55,7 @@ function createResult(pos) {
         velocity: pos.coordinate.speed,
         altitudeAccuracy: pos.coordinate.altitudeAccuracy,
         timestamp: pos.coordinate.timestamp
-    };
+    }
     
     if (pos.coordinate.point) {
         res.latitude = pos.coordinate.point.position.latitude;
@@ -92,45 +72,46 @@ function createResult(pos) {
 
 module.exports = {
     getLocation: function (success, fail, args, env) {
-        ensureLocator().done(function () {
-            if (loc) {
-                var highAccuracy = args[0],
-                    maxAge = args[1];
+        ensureLocator();
+        if (loc != null)
+        {
+            var highAccuracy = args[0],
+                maxAge = args[1];
 
-                loc.desiredAccuracy = highAccuracy ?
-                    Windows.Devices.Geolocation.PositionAccuracy.high :
-                    Windows.Devices.Geolocation.PositionAccuracy.default;
+            loc.desiredAccuracy = highAccuracy ?
+                Windows.Devices.Geolocation.PositionAccuracy.high :
+                Windows.Devices.Geolocation.PositionAccuracy.default;
 
-                loc.reportInterval = maxAge ? maxAge : 0;
+            loc.reportInterval = maxAge ? maxAge : 0;
 
-                loc.getGeopositionAsync().then(
-                    function (pos) {
-                        success(createResult(pos));
-                    },
-                    function (err) {
-                        fail({
-                            code: createErrorCode(),
-                            message: err.message
-                        });
-                    }
-                );
-            }
-            else {
-                fail({
-                    code: PositionError.POSITION_UNAVAILABLE,
-                    message: "You do not have the required location services present on your system."
-                });
-            }
-        }, fail);
+            loc.getGeopositionAsync().then(
+                function (pos) {
+                    success(createResult(pos));
+                },
+                function (err) {
+                    fail({
+                        code: createErrorCode(),
+                        message: err.message
+                    });
+                }
+            );
+        }
+        else
+        {
+            fail({
+                code: PositionError.POSITION_UNAVAILABLE,
+                message: "You do not have the required location services present on your system."
+            });
+        }
     },
 
     addWatch: function (success, fail, args, env) {
-        ensureLocator().done(function () {
-            var clientId = args[0],
+        ensureLocator();
+        var clientId = args[0],
             highAccuracy = args[1],
 
             onPositionChanged = function (e) {
-                success(createResult(e.position), { keepCallback: true });
+                success(createResult(e.position), {keepCallback: true});
             },
 
             onStatusChanged = function (e) {
@@ -150,30 +131,29 @@ module.exports = {
                         });
                         break;
 
-                    // case Windows.Devices.Geolocation.PositionStatus.initializing:
-                    // case Windows.Devices.Geolocation.PositionStatus.ready:
+                    case Windows.Devices.Geolocation.PositionStatus.initializing:
+                    case Windows.Devices.Geolocation.PositionStatus.ready:
                     default:
                         break;
                 }
             };
 
-            loc.desiredAccuracy = highAccuracy ?
-                    Windows.Devices.Geolocation.PositionAccuracy.high :
-                    Windows.Devices.Geolocation.PositionAccuracy.default;
+        loc.desiredAccuracy = highAccuracy ?
+                Windows.Devices.Geolocation.PositionAccuracy.high :
+                Windows.Devices.Geolocation.PositionAccuracy.default;
 
-            if (cordova.platformId == 'windows') {
-                // 'positionchanged' event fails with error below if movementThreshold is not set
-                // JavaScript runtime error: Operation aborted
-                // You must set the MovementThreshold property or the ReportInterval property before adding event handlers.
-                // WinRT information: You must set the MovementThreshold property or the ReportInterval property before adding event handlers
-                loc.movementThreshold = Number.EPSILON;
-            }
+        if (cordova.platformId == 'windows' && WinJS.Utilities.isPhone) {
+            // on Windows Phone 8.1 'positionchanged' event fails with error below if movementThreshold is not set
+            // JavaScript runtime error: Operation aborted
+            // You must set the MovementThreshold property or the ReportInterval property before adding event handlers.
+            // WinRT information: You must set the MovementThreshold property or the ReportInterval property before adding event handlers
+            loc.movementThreshold = loc.movementThreshold || 1; // 1 meter
+        }
 
-            loc.addEventListener("positionchanged", onPositionChanged);
-            loc.addEventListener("statuschanged", onStatusChanged);
+        loc.addEventListener("positionchanged", onPositionChanged);
+        loc.addEventListener("statuschanged", onStatusChanged);
 
-            ids[clientId] = { pos: onPositionChanged, status: onStatusChanged };
-        }, fail);        
+        ids[clientId] = { pos: onPositionChanged, status: onStatusChanged };
     },
 
     clearWatch: function (success, fail, args, env) {
@@ -187,7 +167,7 @@ module.exports = {
             delete ids[clientId];
         }
 
-        success();
+        success && success();
     }
 };
 
