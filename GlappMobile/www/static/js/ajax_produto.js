@@ -16,7 +16,7 @@ $(document).ready(function () {
             var li = $('<li></li>');
             var div1 = $('<div class="collapsible-header"><i class="material-icons">assignment_ind</i>' + produto.nome + ' -> ' + produto.marca + '</div>');
             var div2 = $('<div class="collapsible-body"></div>');
-            console.log(div2);
+            //console.log(div2);
             var conteudo = "";
             conteudo += "<p>Ingredientes: " + produto.ingredientes + "<br>" + "Contem gluten: " + produto.contemGluten + "</p>";
             div2.html(conteudo);
