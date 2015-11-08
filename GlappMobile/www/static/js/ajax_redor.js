@@ -135,10 +135,25 @@ $(document).ready(function () {
 
     };
 
+    var vincularEventos = function () {
+
+        $(window).on('orientationchange', function (e) {
+            setTimeout(function () {
+                var mapParentWidth = $("#map").parent("div").width();
+                $('#map').width(mapParentWidth * 0.999);
+                $('#map').height(mapParentWidth * 0.999);
+                google.maps.event.trigger(map, "resize");
+            }, 500);
+
+        });
+
+    };
+
     var inicializarPagina = function () {
         ajustaTamanhoMapa();
         initialize();
         buscarLocalidadeProxima();
+        vincularEventos();
     };
 
     inicializarPagina();
