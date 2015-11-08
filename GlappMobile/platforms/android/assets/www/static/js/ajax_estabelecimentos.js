@@ -122,7 +122,7 @@ $(document).ready(function () {
             var div2 = $('<div class="collapsible-body"></div>');
             var conteudo = "";
             conteudo += '<p>Site: ' + estabelecimento.site + '</p>';
-            conteudo += '<div class="row center"><div class="col s12 m6" style="margin-top: 5px;"><a class="waves-effect waves-light  btn btn-mapa"><i class="right"><img src="static/img/ic_place_white_18dp.png"/></i>Mostrar mapa</a></div><div class="col s12 m6" style="margin-top: 5px;"><a class="waves-effect waves-light  btn btn-rota"><i class="material-icons right">navigation</i>Traçar rota</a></div></div>';
+            conteudo += '<div class="row center"><div class="col s12 m6" style="margin-top: 5px;"><a class="waves-effect waves-light  btn btn-mapa"><i class="right"><img id="btn-mapa-icone-localizacao" src="static/img/ic_place_white_18dp.png"/></i>Mostrar mapa</a></div><div class="col s12 m6" style="margin-top: 5px;"><a class="waves-effect waves-light  btn btn-rota"><i class="material-icons right">navigation</i>Traçar rota</a></div></div>';
             conteudo += '<input type="hidden" name="latitude" value="' + estabelecimento.latitude + '"  />';
             conteudo += '<input type="hidden" name="longitude" value="' + estabelecimento.longitude + '"  />';
             conteudo += '<input type="hidden" name="id" value="' + estabelecimento.idEmpresa + '"  />';

@@ -23,8 +23,8 @@ main {
     font-size: inherit;
 }
 
-i.material-icons img {
-    margin-top: 0.2rem;
+#btn-mapa-icone-localizacao {
+    margin-top: 0.5rem;
     width: 1.4rem;
     height: 1.4rem;
 }
