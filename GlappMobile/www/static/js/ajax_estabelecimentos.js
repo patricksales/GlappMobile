@@ -60,30 +60,6 @@ $(document).ready(function () {
         anexarMensagem(marker, informacao);
     };
 
-
-    var renderizarLista = function (dadosRecebidos) {
-        listaObj.html('');
-        dadosRecebidos.forEach(function (estabelecimento) {
-            var li = $('<li id="' + estabelecimento.idEmpresa + '"></li>');
-            var div1 = $('<div class="collapsible-header"><i class="material-icons">business</i>' + estabelecimento.nome + ' -> ' + estabelecimento.unidade + '</div>');
-            var div2 = $('<div class="collapsible-body"></div>');
-            var conteudo = "";
-            conteudo += '<p>Site: ' + estabelecimento.site + '</p>';
-            conteudo += '<div class="row center"><div class="col s12 m6"><a class="waves-effect waves-light  btn btn-mapa"><i class="material-icons right">navigation</i>Mostrar mapa</a></div>';
-            conteudo += '<input type="hidden" name="latitude" value="' + estabelecimento.latitude + '"  />';
-            conteudo += '<input type="hidden" name="longitude" value="' + estabelecimento.longitude + '"  />';
-            conteudo += '<input type="hidden" name="id" value="' + estabelecimento.idEmpresa + '"  />';
-            conteudo += '<input type="hidden" name="nome" value="' + estabelecimento.nome + '"  />';
-            conteudo += '<input type="hidden" name="unidade" value="' + estabelecimento.unidade + '"  />';
-            conteudo += '<div id="mapContainer-' + estabelecimento.idEmpresa + '">';
-            conteudo += '</div>';
-            div2.html(conteudo);
-            li.append(div1);
-            li.append(div2);
-            listaObj.append(li);
-        });
-    };
-
     var inserirMarcadorUsuario = function (posicao, titulo, informacao) {
         var icon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
         var mapAux = map;
@@ -146,7 +122,7 @@ $(document).ready(function () {
             var div2 = $('<div class="collapsible-body"></div>');
             var conteudo = "";
             conteudo += '<p>Site: ' + estabelecimento.site + '</p>';
-            conteudo += '<div class="row center"><div class="col s12 m6"><a class="waves-effect waves-light  btn btn-mapa"><i class="right"><img src="static/img/ic_place_white_18dp.png"/></i>Mostrar mapa</a></div><div class="col s12 m6"><a class="waves-effect waves-light  btn btn-rota"><i class="material-icons right">navigation</i>Traçar rota</a></div></div>';
+            conteudo += '<div class="row center"><div class="col s12 m6" style="margin-top: 5px;"><a class="waves-effect waves-light  btn btn-mapa"><i class="right"><img id="btn-mapa-icone-localizacao" src="static/img/ic_place_white_18dp.png"/></i>Mostrar mapa</a></div><div class="col s12 m6" style="margin-top: 5px;"><a class="waves-effect waves-light  btn btn-rota"><i class="material-icons right">navigation</i>Traçar rota</a></div></div>';
             conteudo += '<input type="hidden" name="latitude" value="' + estabelecimento.latitude + '"  />';
             conteudo += '<input type="hidden" name="longitude" value="' + estabelecimento.longitude + '"  />';
             conteudo += '<input type="hidden" name="id" value="' + estabelecimento.idEmpresa + '"  />';

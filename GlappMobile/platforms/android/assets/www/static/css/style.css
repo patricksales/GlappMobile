@@ -23,6 +23,12 @@ main {
     font-size: inherit;
 }
 
+i.material-icons img {
+    margin-top: 0.2rem;
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
 @media only screen and (max-width : 600px) {
     #mobile-demo .material-icons {
         margin-top: 7%;

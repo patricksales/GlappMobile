@@ -76,9 +76,9 @@ $(document).ready(function () {
     };
 
     var vincularEventos = function () {
-        console.log("YEs");
+        //console.log("YEs");
         var btnMapa = $(".btn-mapa");
-        console.log(btnMapa);
+        //console.log(btnMapa);
         btnMapa.on("click", obterInformacoesRestaurante);
         btnPesquisar.on("click", obterTermoPesquisado);
     };
@@ -137,7 +137,7 @@ $(document).ready(function () {
     };
 
     var obterInformacoesRestaurante = function (e) {
-        console.log('YesResta');
+        //console.log('YesResta');
         var divPai = $(e.currentTarget).parents("div.collapsible-body");
         var id = divPai.find("input[name='id']").val();
         var lat = parseFloat(divPai.find("input[name='latitude']").val());
