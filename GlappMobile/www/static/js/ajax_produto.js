@@ -22,7 +22,7 @@ $(document).ready(function () {
             var div1 = $('<div class="collapsible-header"><i class="material-icons">assignment_ind</i>' + produto.nome + ' -> ' + produto.marca + '</div>');
             var div2 = $('<div class="collapsible-body"></div>');
             var conteudo = "";
-            conteudo += "<div><p>Ingredientes: " + produto.ingredientes + "<br>" + "Contem gluten: " + produto.contemGluten + "</p></div>";
+            conteudo += "<div><p>Ingredientes: " + produto.ingredientes + "<br>" + "Contem gluten: " + (produto.contemGluten == "true" ? "Sim" : "Não") + "</p></div>";
             conteudo += '<div class="row center"><div class="col s12 m6" style="margin-top: 5px;"><a class="waves-effect waves-light  btn btn-mapa"><i class="right"><img id="btn-mapa-icone-localizacao" src="static/img/ic_place_white_18dp.png"/></i>Mostrar mapa</a></div>';
             conteudo += '<div class="row center"><div class="col s12"><div class="mapContainer" id="mapContainer-' + produto.idProduto + '"></div></div></div>';
             conteudo += '<input type="hidden" name="id" value="' + produto.idProduto + '" />';

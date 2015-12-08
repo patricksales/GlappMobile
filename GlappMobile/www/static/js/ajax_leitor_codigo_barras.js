@@ -8,12 +8,13 @@ var exibirInformacaoProduto = function (dados) {
     if (dados.length === 1) {
         var objProduto = dados[0];
         var conteudo = "";
-        conteudo += '<p>ID: ' + objProduto.idProduto + '</p>';
+        //conteudo += '<p>ID: ' + objProduto.idProduto + '</p>';
         conteudo += '<p>Nome: ' + objProduto.nome + '</p>';
-        conteudo += '<p>Marca: ' + objProduto.marca + '</p>';
+        conteudo += '<p>Marca: ' + objProduto.marca + '</p>';        
+        conteudo += '<p>Contem gluten: ' + (objProduto.contemGluten ? "Sim" : "Não") + '</p>';
+        conteudo += '<p>Contem lactose: ' + (objProduto.contemLactose ? "Sim" : "Não") + '</p>';
+        conteudo += '<p>Peso: ' + objProduto.pesoQuant + 'g</p>';
         conteudo += '<p>CodigoEAN: ' + objProduto.codigoEAN + '</p>';
-        conteudo += '<p>Gluten: ' + objProduto.contemGluten + '</p>';
-        conteudo += '<p>Lactose: ' + objProduto.contemLactose + '</p>';
         divInformacoes.html(conteudo);
     } else {
         divInformacoes.html("Erro!");
